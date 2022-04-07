@@ -20,9 +20,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     RegisterClass(&wc);
 
     // Create the window.
-
-    HWND hwnd = CreateWindowEx(
-        0,                              // Optional window styles.
+    MessageBox(NULL,TEXT("aaaa"),TEXT("dfrert"),31);
+    HWND hwnd = CreateWindow(
+        //0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
         L"Learn to Program Windows",    // Window text
         WS_OVERLAPPEDWINDOW,            // Window style

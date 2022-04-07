@@ -28,6 +28,7 @@ SOFTWARE.
 #include <time.h>
 #include <signal.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <SDL2/SDL.h>
 
 #define IDOK 0
@@ -72,11 +73,14 @@ typedef unsigned int UINT_PTR;
 typedef int INT_PTR;
 typedef INT_PTR *PINT_PTR;
 typedef int64_t LONG_PTR; 
+typedef uint64_t ULONG_PTR; 
 
 typedef LONG_PTR LRESULT;
 typedef PVOID HANDLE;
 
 typedef void *LPVOID;
+typedef const void* LPCVOID;
+typedef DWORD* LPDWORD;
 
 // Handles
 typedef SDL_Renderer* HDC;
@@ -257,6 +261,25 @@ typedef struct tagMSG {
   DWORD  lPrivate;
 } MSG, *PMSG, *NPMSG, *LPMSG;
 
+typedef struct _SECURITY_ATTRIBUTES {
+  DWORD nLength;
+  LPVOID lpSecurityDescriptor;
+  BOOL bInheritHandle;
+} SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
+
+typedef struct _OVERLAPPED {
+  ULONG_PTR Internal;
+  ULONG_PTR InternalHigh;
+  union {
+    struct {
+      DWORD Offset;
+      DWORD OffsetHigh;
+    } DUMMYSTRUCTNAME;
+    PVOID Pointer;
+  } DUMMYUNIONNAME;
+  HANDLE    hEvent;
+} OVERLAPPED, *LPOVERLAPPED;
+
 typedef struct HWNDSTRUCT {
   LPCTSTR windowname;
   LPCTSTR classname; 
@@ -308,11 +331,13 @@ void _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #endif
 // ---------------
 
+#include "winerror.h" // pretty long
 // other
 #include "winnt.h"
 #include "wingdi.h"
 #include "shellapi.h"
 #include "appmgmt.h"
+#include "fileapi.h"
 // -----
 
 #include "src/entrypoint.c"
