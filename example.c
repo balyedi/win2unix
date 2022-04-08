@@ -2,7 +2,7 @@
 #define UNICODE
 #endif 
 
-#include "src/windows.h" // include the windows.h from the win2unix source code (the directory isnt enforced to be src)
+#include <windows.h>
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

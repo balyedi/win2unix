@@ -21,6 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -380,3 +383,7 @@ unsigned int _Wget_component(unsigned int color, unsigned int index)
 // Internal functions
 #include "src/internalwsend.c"
 #include "src/internalwdrawcircle.c"
+
+#ifdef __cplusplus
+}
+#endif
