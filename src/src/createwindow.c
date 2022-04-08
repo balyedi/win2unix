@@ -37,7 +37,7 @@ HWND CreateWindowW(
 	//if(strcmp(lpClassName,TEXT("")))
 	for(i = 0;i < _Wclassesitr;i++) {
 	  //fprintf(stderr,"%ls",_Wclasses[i].lpszClassName);
-	  if(strcmp(_Wclasses[i].lpszClassName,lpClassName) == 0) {
+	  if(wcscmp(_Wclasses[i].lpszClassName,lpClassName) == 0) {
 		hwnd->_Wassocclass = &_Wclasses[i];
 		/*printf("%ls",hwnd->_Wassocclass->lpszClassName);
 		fflush(stdout);*/

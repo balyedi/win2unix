@@ -67,7 +67,7 @@ typedef uint32_t UINT32;
 
 typedef signed char INT8;
 typedef signed short INT16;
-typedef uint32_t INT32;
+typedef int32_t INT32;
 
 typedef unsigned int UINT_PTR;
 typedef int INT_PTR;
@@ -83,7 +83,7 @@ typedef const void* LPCVOID;
 typedef DWORD* LPDWORD;
 
 // Handles
-typedef SDL_Renderer* HDC;
+typedef struct HDCSTRUCT* HDC;
 typedef struct HWNDSTRUCT* HWND;
 typedef HANDLE HINSTANCE;
 typedef HANDLE HICON;
@@ -170,8 +170,9 @@ typedef CHAR *PSTR;
 #define COLOR_3DHIGHLIGHT COLOR_BTNHIGHLIGHT
 #define COLOR_3DHILIGHT COLOR_BTNHIGHLIGHT
 #define COLOR_BTNHILIGHT COLOR_BTNHIGHLIGHT
-//-------------------
 
+#define COLOR_LAST COLOR_MENUBAR
+//-------------------
 // GetWindowLongPtr
 #define GWL_EXSTYLE -20 //Retrieves the extended window styles.
 #define GWLP_HINSTANCE -6 //Retrieves a handle to the application instance.
@@ -280,6 +281,10 @@ typedef struct _OVERLAPPED {
   HANDLE    hEvent;
 } OVERLAPPED, *LPOVERLAPPED;
 
+typedef DWORD COLORREF;
+typedef DWORD* LPCOLORREF;
+
+#define RGB(r,g,b)      ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
 typedef struct HWNDSTRUCT {
   LPCTSTR windowname;
   LPCTSTR classname; 
@@ -296,7 +301,14 @@ typedef struct HWNDSTRUCT {
   HDC _Wassochdc;
   WNDCLASS* _Wassocclass;
 } _Whwnd;
-int _Whwndsize = sizeof(_Whwnd);
+typedef struct HDCSTRUCT {
+  _Whwnd* _Wassochwnd;
+  SDL_Renderer* renderer;
+  COLORREF bg;
+  COLORREF fg;
+} _Whdc;
+uint16_t _Whwndsize = sizeof(_Whwnd);
+uint16_t _Whdcsize = sizeof(_Whdc);
 
 //#define _WHWNDINIT(_Wwindow, grade) (_Whwnd){ name, grade }
 
@@ -317,6 +329,12 @@ void Sleep(int ms) { SDL_Delay(ms);return; }
 // Function prototypes
 void _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //-----------------------
+unsigned int _Wget_component(unsigned int color, unsigned int index)
+{
+    const unsigned int shift = index * 8;
+    const unsigned int mask = 0xFF << shift;
+    return (color & mask) >> shift;
+}
 // Internal macros
 #define _WCWBUTTON 1
 #define _WCWWINDOW 2
@@ -361,3 +379,4 @@ void _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // Internal functions
 #include "src/internalwsend.c"
+#include "src/internalwdrawcircle.c"

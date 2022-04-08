@@ -25,7 +25,8 @@ LPVOID lpParam ) {
 		_Whwnd *hwnd;
 		hwnd = malloc(_Whwndsize);
 		hwnd->_Wwindow = _Wwindow;
-
+		/*hwnd->bg = RGB(0,0,0);
+		hwnd->fg = RGB(255,255,255);*/
 		hwnd->dwStyle = dwStyle;
 		hwnd->dwExStyle = dwExStyle;
 		wchar_t *winnamel = malloc(100);

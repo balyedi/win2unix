@@ -1,6 +1,5 @@
 SDL_Window* _Wwindow = NULL;
-SDL_Renderer *_Wrenderer = NULL;
-SDL_Surface* _Wscreensur = NULL;
+//SDL_Renderer *_Wrenderer = NULL;
 
 int main(int argc, char *argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {

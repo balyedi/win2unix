@@ -20,7 +20,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     RegisterClass(&wc);
 
     // Create the window.
-    MessageBox(NULL,TEXT("aaaa"),TEXT("dfrert"),31);
+    //MessageBox(NULL,TEXT("aaaa"),TEXT("dfrert"),31);
     HWND hwnd = CreateWindow(
         //0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
@@ -69,9 +69,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hwnd, &ps);
 
             // All painting occurs here, between BeginPaint and EndPaint.
-
-            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
-
+            SetBkColor(hdc,RGB(244,55,31));
+            //FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
+            TextOutW(
+  hdc,
+  2,
+  2,
+  L"su",
+  2
+);
+            //_Wdrawcircle(hdc, 44, 4, 31);
             EndPaint(hwnd, &ps);
         }
         return 0;
