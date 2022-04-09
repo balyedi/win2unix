@@ -54,7 +54,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     return 0;
 }
-
+COLORREF i = RGB(25,25,2);
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -69,7 +69,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hwnd, &ps);
 
             // All painting occurs here, between BeginPaint and EndPaint.
-            SetBkColor(hdc,RGB(244,55,31));
+            SetBkColor(hdc,i);
             //FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
             TextOutW(
   hdc,
@@ -79,7 +79,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   2
 );
             //_Wdrawcircle(hdc, 44, 4, 31);
+                        //i = i + 0xFF;
             EndPaint(hwnd, &ps);
+
         }
         return 0;
 

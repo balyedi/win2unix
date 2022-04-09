@@ -32,6 +32,7 @@ extern "C" {
 #include <signal.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <iconv.h>
 #include <SDL2/SDL.h>
 
 #define IDOK 0
@@ -90,7 +91,7 @@ typedef struct HDCSTRUCT* HDC;
 typedef struct HWNDSTRUCT* HWND;
 typedef HANDLE HINSTANCE;
 typedef HANDLE HICON;
-typedef HANDLE HBRUSH;
+typedef struct HBRUSHSTRUCT* HBRUSH;
 typedef HICON HCURSOR;
 typedef HANDLE HMENU;
 
@@ -122,6 +123,7 @@ typedef CHAR *PSTR;
 #define WM_NCPAINT                      0x0085
 #define WM_LBUTTONDOWN                  0x0201
 #define WM_LBUTTONUP                    0x0202
+#define WM_SYSCOLORCHANGE               0x0203
 
 #define WS_MINIMIZEBOX                  0x00020000L
 #define WS_OVERLAPPED                   0x00000000L
@@ -284,6 +286,26 @@ typedef struct _OVERLAPPED {
   HANDLE    hEvent;
 } OVERLAPPED, *LPOVERLAPPED;
 
+typedef struct tagCREATESTRUCTW {
+  LPVOID    lpCreateParams;
+  HINSTANCE hInstance;
+  HMENU     hMenu;
+  HWND      hwndParent;
+  int       cy;
+  int       cx;
+  int       y;
+  int       x;
+  LONG      style;
+  LPCWSTR   lpszName;
+  LPCWSTR   lpszClass;
+  DWORD     dwExStyle;
+} CREATESTRUCTW, *LPCREATESTRUCTW;
+#ifdef UNICODE
+#define CREATESTRUCT CREATESTRUCTW
+#else
+#define CREATESTRUCT CREATESTRUCTA
+#endif
+
 typedef DWORD COLORREF;
 typedef DWORD* LPCOLORREF;
 
@@ -304,14 +326,23 @@ typedef struct HWNDSTRUCT {
   HDC _Wassochdc;
   WNDCLASS* _Wassocclass;
 } _Whwnd;
+
 typedef struct HDCSTRUCT {
   _Whwnd* _Wassochwnd;
   SDL_Renderer* renderer;
+  SDL_Texture* texture;
   COLORREF bg;
   COLORREF fg;
 } _Whdc;
+
+typedef struct HBRUSHSTRUCT {
+  COLORREF color;
+} _Whbrush;
+
 uint16_t _Whwndsize = sizeof(_Whwnd);
 uint16_t _Whdcsize = sizeof(_Whdc);
+uint16_t _Whbrushsize = sizeof(_Whbrush);
+uint16_t _Wcstructsize = sizeof(CREATESTRUCTW);
 
 //#define _WHWNDINIT(_Wwindow, grade) (_Whwnd){ name, grade }
 
@@ -330,7 +361,7 @@ UINT _Wevent;
 void Sleep(int ms) { SDL_Delay(ms);return; } 
 
 // Function prototypes
-void _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //-----------------------
 unsigned int _Wget_component(unsigned int color, unsigned int index)
 {
@@ -351,6 +382,7 @@ unsigned int _Wget_component(unsigned int color, unsigned int index)
 #define GetWindowLongPtr GetWindowLongPtrA
 #endif
 // ---------------
+//iconv_open(const char *tocode, const char *fromcode);
 
 #include "winerror.h" // pretty long
 // other

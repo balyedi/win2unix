@@ -1,4 +1,4 @@
-void _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK _WsendWMmessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	//fprintf(stderr,"%ls",hwnd->windowname);
 	//hwnd->_Wassocclass->lpfnWndProc(hwnd,uMsg,wParam,lParam);
 	if(hwnd == 32) {
